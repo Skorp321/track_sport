@@ -3,8 +3,8 @@ import torchreid
 # This code creates an ImageDataManager object that manages image data for training and testing.
 datamanager = torchreid.data.ImageDataManager(
     root="data/processed", # The directory where the data is stored.
-    sources="data/processed", # The source dataset to use.
-    targets="data/processed", # The target dataset to use.
+    sources="train", # The source dataset to use.
+    targets="train", # The target dataset to use.
     height=256, # The height of the input image.
     width=128, # The width of the input image.
     batch_size_train=32, # Batch size for training images.
@@ -47,7 +47,7 @@ engine =  torchreid.engine.ImageSoftmaxEngine(
 )
 
 engine.run(
-    save_dir="../../log/resnet50-softmax-market1501",
+    save_dir="log/resnet50-softmax-market1501",
     max_epoch=60,
     eval_freq=10,
     print_freq=10,
