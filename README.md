@@ -1,7 +1,7 @@
 track_sport
 ==============================
 
-A short description of the project.
+Краткое описание структуры проекта:
 
 Project Organization
 ------------
