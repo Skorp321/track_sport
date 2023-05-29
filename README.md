@@ -53,5 +53,4 @@ Project Organization
 
 
 --------
-
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+ - Для того чтобы создать датасет из NCAA для обучения модели reid нужно запустить скрипт: src/data/create_reid_dataset.py input_filepath output_filepath, где input_filepath - путь по которому находятся все папки NCAA, output_filepath - путь по которому создадутся 3 папки(train, eval, test) с файлами для обучения модели reid 
