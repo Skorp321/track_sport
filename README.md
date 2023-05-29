@@ -53,4 +53,4 @@ Project Organization
 
 
 --------
- - Для того чтобы создать датасет из NCAA для обучения модели reid нужно запустить скрипт: src/data/create_reid_dataset.py input_filepath output_filepath, где input_filepath - путь по которому находятся все папки NCAA, output_filepath - путь по которому создадутся 3 папки(train, eval, test) с файлами для обучения модели reid 
+ - Для того чтобы создать датасет из NCAA для обучения модели reid нужно запустить скрипт: **src/data/create_reid_dataset.py input_filepath output_filepath**, где input_filepath - путь по которому находятся все папки NCAA, output_filepath - путь по которому создадутся 3 папки(train, eval, test) с файлами для обучения модели reid 
