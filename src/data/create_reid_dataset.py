@@ -73,7 +73,7 @@ def main(input_filepath, output_filepath):
                     class_name += 13
                     list_folder.append(folder_name)
 
-                save_path = os.path.join(output_filepath, str(label + class_name))
+                save_path = os.path.join(output_filepath, f'p{label + class_name}')
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
 
@@ -93,7 +93,7 @@ def main(input_filepath, output_filepath):
                 crop_img = im.crop((x1, y1, x2, y2))
                 crop_img.save(os.path.join(save_path, str(class_name) + "_" + str(label) + "_" + str(i) + ".jpg"))
                 i += 1
-
+    '''
     # Get a list of directories within the root folder
     directories = [name for name in os.listdir(output_filepath) if os.path.isdir(os.path.join(output_filepath, name))]
     directories = [dirs for dirs in directories if ('config' not in dirs) & ('logs' not in dirs)]
@@ -129,7 +129,7 @@ def main(input_filepath, output_filepath):
 
     # Move the folder and its contents to the destination directory
     move_files(output_filepath, test_data, 'test')            
-
+    '''
 if  __name__ == '__main__':
     main()
 

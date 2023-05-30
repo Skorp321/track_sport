@@ -2,14 +2,14 @@ import torchreid
 
 # This code creates an ImageDataManager object that manages image data for training and testing.
 datamanager = torchreid.data.ImageDataManager(
-    root="data/processed", # The directory where the data is stored.
-    sources="train", # The source dataset to use.
-    targets="train", # The target dataset to use.
+    root="track_sport/data/external", # The directory where the data is stored.
+    sources=["ncaamoscom"], # The source dataset to use.
+    targets=["ncaamoscom"], # The target dataset to use.    
     height=256, # The height of the input image.
     width=128, # The width of the input image.
     batch_size_train=32, # Batch size for training images.
     batch_size_test=100, # Batch size for testing images.
-    transforms=["random_flip", "random_crop"], # Data augmentation techniques to apply during training.
+    transforms=["random_flip", "random_crop"], # Data augmentation techniques to apply during training. # type: ignore
     norm_mean=[0.485, 0.456, 0.406], # Mean values used for normalization of input images
     norm_std=[0.229, 0.224, 0.225]   # Standard deviation values used for normalization of input images
 )
@@ -48,7 +48,7 @@ engine =  torchreid.engine.ImageSoftmaxEngine(
 
 engine.run(
     save_dir="log/resnet50-softmax-market1501",
-    max_epoch=60,
+    max_epoch=150,
     eval_freq=10,
     print_freq=10,
     test_only=False

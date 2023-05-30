@@ -3,9 +3,9 @@ model:
   pretrained: True
 
 data:
-  type: 'data/processed'
-  sources: ['train']
-  targets: ['train']
+  type: 'data/external'
+  sources: ['NCAAMoscom']
+  targets: ['NCAAMoscom']
   height: 256
   width: 128
   combineall: False

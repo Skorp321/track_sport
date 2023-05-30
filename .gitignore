@@ -15,12 +15,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-data/external
-data/interim
-data/raw
-data/processed/test
-data/processed/train
-data/processed/val
+data
 .env_cuda12
 
 # PyInstaller
