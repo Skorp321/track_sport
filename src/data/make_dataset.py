@@ -5,21 +5,19 @@ import shutil
 from tqdm import tqdm
 
 # import click
-import logging
-from pathlib import Path
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
-#from dotenv import find_dotenv, load_dotenv
+# from dotenv import find_dotenv, load_dotenv
 
 
 def make_pathes_list_jpg(input_dirs: list):
     """
-    Функция создает список путей к файлам формата jpg в заданных директориях input_dirs
-    и записывает их в csv-файлы в директории 'sport/data/interim'.
+    Функция создает список путей к файлам формата jpg в заданных директориях
+    input_dirs и записывает их в txt-файлы в директории 'sport/data/interim'.
 
     Аргументы:
-    :param input_dirs (list): список путей к директориям с изображениями в формате jpg.
+    :param input_dirs (list): список путей к директориям с изображениями
+    в формате jpg.
 
     Возвращает:
     Ничего не возвращает.
@@ -28,7 +26,7 @@ def make_pathes_list_jpg(input_dirs: list):
     for input_dir in input_dirs:
         for root, dirs, files in os.walk(input_dir):
             for file in files:
-                # проверяем, есть ли заданный файл в списке файлов текущей папки
+            # проверяем, есть ли заданный файл в списке файлов текущей папки
                 if "jpg" in file:
                     # если есть, то добавляем путь в список
                     anno_pathes_jpg.append(os.path.join(root, file))
@@ -77,14 +75,19 @@ def copy_jpg_fiels():
                 csv_path = os.path.join(input_dir, file)
                 dataframe = pd.read_csv(csv_path, header=None)
 
-                for _, row in tqdm(dataframe.iterrows(), total=dataframe.shape[0]):
+                for _, row in tqdm(dataframe.iterrows(),
+                                   total=dataframe.shape[0]):
                     path, file_name = os.path.split(row[0])
                     _, folder = os.path.split(path)
                     file_name = folder + "-" + file_name
 
                     try:
                         shutil.copyfile(
-                            row[0], os.path.join(output_dir, train_name, file_name)
+                            row[0], os.path.join(
+                                        output_dir,
+                                        train_name,
+                                        file_name
+                                        )
                         )
                     except Exception as e:
                         print(f"Ошибка при копировании файла {row}: {e}")
@@ -101,7 +104,8 @@ def copy_jpg_fiels():
                 csv_path = os.path.join(input_dir, file)
                 dataframe = pd.read_csv(csv_path, header=None)
 
-                for _, row in tqdm(dataframe.iterrows(), total=dataframe.shape[0]):
+                for _, row in tqdm(dataframe.iterrows(),
+                                   total=dataframe.shape[0]):
                     path, file_name = os.path.split(row[0])
                     _, folder = os.path.split(path)
                     file_name = folder + "-" + file_name
@@ -319,10 +323,11 @@ def create_annotations():
 
 
 if __name__ == "__main__":
-    paths = [
-        "/media/skorp/datasets/PycharmProjects/MLOps_sport/sport/data/raw/NCAA/NCAA_1_tracking",
-        "/media/skorp/datasets/PycharmProjects/MLOps_sport/sport/data/raw/NCAA/NCAA_2",
-    ]
+    paths = ["/media/skorp/datasets/PycharmProjects/MLOps_sport/ \
+            sport/data/raw/NCAA/NCAA_1_tracking",
+            "/media/skorp/datasets/PycharmProjects/MLOps_sport/ \
+            sport/data/raw/NCAA/NCAA_2",
+            ]
 
     make_pathes_list_jpg(paths)
     copy_jpg_fiels()

@@ -1,6 +1,6 @@
-train: ./data/train/images
-val: ./data/valid/images
-test: ./data/test/images
+train: \\Projects\\track_sport\\data\\processed\\train\\images
+val: \\Projects\\track_sport\\data\\processed\\valid\\images
+test: \\Projects\\track_sport\\data\\processed\\test\\images
 
 nc: 1
 names: ['Player']

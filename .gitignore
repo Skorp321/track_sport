@@ -1,5 +1,10 @@
 # Distribution / packaging
 .Python
+data/processed/train
+data/processed/valid
+data/processed/test
+data/raw
+data/*.csv
 env/
 build/
 develop-eggs/
@@ -15,8 +20,10 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-data
 .env_cuda12
+runs
+*.pt
+src/__pycache__
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
