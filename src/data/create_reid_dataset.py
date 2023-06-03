@@ -10,11 +10,21 @@ from tqdm import tqdm
 #PATH_TO_DATA = "../../data/raw/NCAA_2/third_task"
 #save_dir = "../../data/processed"
 
-anno_pathes = []
-list_folder = []
+def copy_files(file_list, root_folder, flag):
+    if len(file_list) == 0:
+        return
 
-class_name = -13
-i = 0
+    # Get the name of the folder
+    d = os.path.split(root_folder)[1]
+    print(f"Copying {len(file_list)} files from {d} to {flag} folder")
+    for file in file_list:
+        path = os.path.split(root_folder)[0]
+        curent_folder = os.path.join(path, d)
+        # Create the folder and its parent directories if they don't exist
+        final_path = os.path.join(root_folder, flag)
+        os.makedirs(final_path, exist_ok=True)
+        shutil.move(os.path.join(curent_folder, file), final_path)
+
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
@@ -40,9 +50,8 @@ def main(input_filepath, output_filepath):
     for root, dirs, files in os.walk(input_filepath):
         if  len(files) != 0:
             for file in files:
-                if file.endswith(".json"):
-                    if ('anno' in root) or ('third_task' in root):
-                        anno_pathes.append(os.path.join(root, file))
+                if file.endswith(".json") & (('anno' in root) or ('third_task' in root)):
+                    anno_pathes.append(os.path.join(root, file))
 
                 
     for anno_path in tqdm(anno_pathes):
@@ -51,7 +60,9 @@ def main(input_filepath, output_filepath):
             im_path = anno_path.replace("json", "jpg").replace("anno", "playerTrackingFrames")
         elif 'third_task' in anno_path:
             im_path = anno_path.replace("json", "jpg").replace("third_task", "playerTrackingFrames2")
- 
+        else:
+            continue    
+
         im = Image.open(im_path)
 
         # im_w, im_h = im.size
@@ -59,6 +70,7 @@ def main(input_filepath, output_filepath):
         with open(anno_path, "r") as f:
             json_data = json.load(f)
 
+        labels = []
         for shape in json_data['shapes']:
 
             label = shape['label']
@@ -73,7 +85,7 @@ def main(input_filepath, output_filepath):
                     class_name += 13
                     list_folder.append(folder_name)
 
-                save_path = os.path.join(output_filepath, f'p{label + class_name}')
+                save_path = os.path.join(output_filepath, f'{label + class_name}')
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
 
@@ -91,45 +103,37 @@ def main(input_filepath, output_filepath):
                     y1, y2 = y2, y1
 
                 crop_img = im.crop((x1, y1, x2, y2))
-                crop_img.save(os.path.join(save_path, str(class_name) + "_" + str(label) + "_" + str(i) + ".jpg"))
+                crop_img.save(os.path.join(save_path, f'{label + class_name}' + "_c" + str(label) + "_" + str(i) + ".jpg"))
                 i += 1
-    '''
+
+    root_folder = output_filepath  # Replace with the actual path to your root folder
+
+    folders = ['train', 'test', 'valid', 'config']
     # Get a list of directories within the root folder
-    directories = [name for name in os.listdir(output_filepath) if os.path.isdir(os.path.join(output_filepath, name))]
-    directories = [dirs for dirs in directories if ('config' not in dirs) & ('logs' not in dirs)]
+    directories = [name for name in os.listdir(root_folder) if (os.path.isdir(os.path.join(root_folder, name)) & (name not in folders))]
 
     # Count the number of directories
     num_folders = len(directories)
 
-    print(f"Number of folders in {output_filepath}: {num_folders - 3}")
+    print(f"Number of folders in {root_folder}: {num_folders}")    
 
-    train_data, val_data = train_test_split(directories, test_size=0.15, random_state=42)
-    train_data, test_data = train_test_split(train_data, test_size=0.2, random_state=42)
+    os.makedirs(os.path.join(root_folder, 'Market-1501'), exist_ok=True)
+    root_folder = os.path.join(root_folder, 'Market-1501')
 
-    def move_files(source_folder: str, file_list: list, flag: str):
-        """
-        Move the files from the source folder to the destination folder
+    print('Create a dataset structure!')
+    for d in tqdm(directories):
+        path = os.path.split(root_folder)[0]
+        curent_folder = os.path.join(path, d)
+        list_pathes = os.listdir(curent_folder)
+        train_data, eval_data = train_test_split(list_pathes, test_size=0.1, random_state=42)
+        train_data, test_data = train_test_split(train_data, test_size=0.55, random_state=42)
+        
+        copy_files(train_data, root_folder, 'bounding_box_train')
+        copy_files(eval_data, root_folder, 'query')
+        copy_files(test_data, root_folder, 'bounding_box_test')
 
-        :param source_folder: The source folder
-        :param file_list: The list of files to move
-        :param flag: The flag to use for the destination folder
-        """
-
-        for file in tqdm(file_list):
-            # Create the folder and its parent directories if they don't exist
-            final_path = os.path.join(source_folder, flag)
-            os.makedirs(final_path, exist_ok=True)
-            shutil.move(os.path.join(source_folder, file), os.path.join(source_folder, flag))
-
-    # Move the folder and its contents to the destination directory
-    move_files(output_filepath, train_data, 'train')
-
-    # Move the folder and its contents to the destination directory
-    move_files(output_filepath, val_data, 'val')
-
-    # Move the folder and its contents to the destination directory
-    move_files(output_filepath, test_data, 'test')            
-    '''
+        os.removedirs(curent_folder)
+   
 if  __name__ == '__main__':
     main()
 

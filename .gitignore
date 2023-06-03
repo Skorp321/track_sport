@@ -1,10 +1,6 @@
 # Distribution / packaging
 .Python
-data/processed/train
-data/processed/valid
-data/processed/test
-data/raw
-data/*.csv
+data/
 env/
 build/
 develop-eggs/
