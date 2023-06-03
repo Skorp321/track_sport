@@ -339,6 +339,3 @@ def create_annotations():
 if __name__ == "__main__":
 
     make_pathes_list_jpg()
-    copy_jpg_fiels()
-    create_annotations()
-

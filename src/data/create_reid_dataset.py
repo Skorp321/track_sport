@@ -15,15 +15,14 @@ def copy_files(file_list, root_folder, flag):
         return
 
     # Get the name of the folder
-    d = os.path.split(root_folder)[1]
+    path, d = os.path.split(root_folder)
     print(f"Copying {len(file_list)} files from {d} to {flag} folder")
     for file in file_list:
-        path = os.path.split(root_folder)[0]
-        curent_folder = os.path.join(path, d)
+
         # Create the folder and its parent directories if they don't exist
-        final_path = os.path.join(root_folder, flag)
+        final_path = os.path.join(path, 'Market-1501', flag)
         os.makedirs(final_path, exist_ok=True)
-        shutil.move(os.path.join(curent_folder, file), final_path)
+        shutil.move(os.path.join(root_folder, file), final_path)
 
 
 @click.command()
@@ -128,12 +127,14 @@ def main(input_filepath, output_filepath):
         train_data, eval_data = train_test_split(list_pathes, test_size=0.1, random_state=42)
         train_data, test_data = train_test_split(train_data, test_size=0.55, random_state=42)
         
-        copy_files(train_data, root_folder, 'bounding_box_train')
-        copy_files(eval_data, root_folder, 'query')
-        copy_files(test_data, root_folder, 'bounding_box_test')
+        copy_files(train_data, curent_folder, 'bounding_box_train')
+        copy_files(eval_data, curent_folder, 'query')
+        copy_files(test_data, curent_folder, 'bounding_box_test')
 
         os.removedirs(curent_folder)
-   
+
+    print('Done!')
+
 if  __name__ == '__main__':
     main()
 
