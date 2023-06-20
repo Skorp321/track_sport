@@ -1,6 +1,7 @@
 # Distribution / packaging
 .Python
-data/
+*.avi
+data
 env/
 yolo_tracking/
 *.avi
