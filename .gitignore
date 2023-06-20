@@ -1,6 +1,6 @@
 # Distribution / packaging
 .Python
-data/
+data
 env/
 build/
 develop-eggs/
@@ -28,10 +28,6 @@ notebooks/test*
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
