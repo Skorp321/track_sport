@@ -2,6 +2,10 @@
 .Python
 data/
 env/
+yolo_tracking/assets
+yolo_tracking/examples/val_utils/data/
+yolo_tracking/examples/runs/
+*.avi
 build/
 develop-eggs/
 dist/
